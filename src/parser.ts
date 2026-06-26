@@ -661,8 +661,8 @@ function processToolResultContent(
 
   const toolResultContent = toolResultMatch[1].trim();
 
-  // Check for image markdown syntax: ![Tool generated image](path) or ![Tool generated image N](path)
-  const imageMarkdownRegex = /!\[Tool generated image( \d+)?\]\(([^)]+)\)/g;
+  // Check for image markdown syntax: any ![alt](path) where path is an image file
+  const imageMarkdownRegex = /!\[[^\]]*\]\(([^)]+\.(?:png|jpg|jpeg|gif|webp|bmp))\)/gi;
   const imageMatches = [...toolResultContent.matchAll(imageMarkdownRegex)];
 
   // If we have images, process them as separate content objects
@@ -672,7 +672,7 @@ function processToolResultContent(
 
     for (const match of imageMatches) {
       const fullMatch = match[0];
-      const imagePath = match[2];
+      const imagePath = match[1];
       const matchIndex = match.index!;
 
       // Add text before this image (if any)

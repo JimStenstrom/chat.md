@@ -614,7 +614,7 @@ ${JSON.stringify(parsedToolCall.params, null, 2)}
       shouldInsertAsMarkdown = true;
     } else {
       // Check if the result contains image markdown links (from MCP tool image output)
-      const containsImageMarkdown = rawResult.includes("![Tool generated image]");
+      const containsImageMarkdown = /!\[[^\]]*\]\([^)]+\.(?:png|jpg|jpeg|gif|webp|bmp)\)/i.test(rawResult);
       
       if (containsImageMarkdown) {
         log("Tool result contains image markdown, preserving it as-is.");
